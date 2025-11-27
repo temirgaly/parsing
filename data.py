@@ -85,7 +85,6 @@ def sync_projects(projects):
 
     try:
         fresh_psd_ids = [p.project_id for p in projects]
-        print(fresh_psd_ids)
         # Step 1: Delete outdated records (exist in DB but not in fresh data)
         delete_query = """
         DELETE FROM psdinfo

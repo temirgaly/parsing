@@ -1,7 +1,6 @@
 from data import get_empty_kato_records, find_kato_code, update_kato_code
 from scraper import scrape_kato_from_project
 from kato_matcher import KatoMatcher
-import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 

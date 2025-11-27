@@ -38,9 +38,7 @@ def fetch_all_projects() -> List[Project]:
         List of Project objects
     """
     all_projects = []
-    if len(all_projects) > 10:
-        print(all_projects)
-        return
+
     # Fetch first page to get total pages
     first_page = fetch_projects_page(1)
     if not first_page:
@@ -50,22 +48,28 @@ def fetch_all_projects() -> List[Project]:
     print(f"Total pages: {total_pages}")
 
     # Process first page
+    page1_count = 0
     for row in first_page.get("rows", []):
-        if 'Кызылорд' in row['cell'][2] and row['cell'][8] == 'Согласован': 
+        if 'Кызылорд' in row['cell'][2] and row['cell'][8] == 'Согласован':
             project = Project(row)
             all_projects.append(project)
+            page1_count += 1
 
-    print(f"Page 1: Fetched {len(first_page.get('rows', []))} projects")
+
+    print(f"Page 1: Fetched {page1_count} filtered projects (out of {len(first_page.get('rows', []))} total)")
+
     # Fetch remaining pages
     for page in range(2, total_pages + 1):
         page_data = fetch_projects_page(page)
         if page_data:
             rows = page_data.get("rows", [])
+            page_count = 0
             for row in rows:
                 if 'Кызылорд' in row['cell'][2] and row['cell'][8] == 'Согласован':
                     project = Project(row)
                     all_projects.append(project)
-            print(f"Page {page}: Fetched {len(rows)} projects")
+                    page_count += 1
+            print(f"Page {page}: Fetched {page_count} filtered projects (out of {len(rows)} total)")
 
     print(f"Total projects fetched: {len(all_projects)}")
     return all_projects
